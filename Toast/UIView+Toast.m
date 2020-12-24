@@ -385,6 +385,7 @@ static const NSString * CSToastQueueKey             = @"CSToastQueueKey";
     activityView.center = [self cs_centerPointForPosition:position withToast:activityView];
     activityView.backgroundColor = style.backgroundColor;
     activityView.alpha = 0.0;
+    activityView.tag = 10001;
     activityView.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
     activityView.layer.cornerRadius = style.cornerRadius;
     
@@ -424,6 +425,11 @@ static const NSString * CSToastQueueKey             = @"CSToastQueueKey";
                          } completion:^(BOOL finished) {
                              [existingActivityView removeFromSuperview];
                              objc_setAssociatedObject (self, &CSToastActivityViewKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                             for (UIView *v in [UIApplication sharedApplication].keyWindow.subviews) {
+                                 if (v.tag == 10001) {
+                                     [v removeFromSuperview];
+                                 }
+                             }
                          }];
     }
 }
